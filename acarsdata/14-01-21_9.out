@@ -1,0 +1,4 @@
+{"timestamp":1610642797.1871541,"station_id":"NormandySR1","channel":2,"freq":131.725,"level":-14,"error":0,"mode":"e","label":"_d","block_id":"X","ack":"2","tail":"N492MC","assstat":"skipped"}
+{"timestamp":1610642800.137114,"station_id":"NormandySR1","channel":2,"freq":131.725,"level":-14,"error":0,"mode":"e","label":"_d","block_id":"Y","ack":"3","tail":"N492MC","assstat":"skipped"}
+{"timestamp":1610642801.936929,"station_id":"NormandySR1","channel":1,"freq":131.525,"level":-19,"error":3,"mode":"t","label":"A4","block_id":"S","ack":false,"tail":"LX-VCV","text":"/SPLATYA.FS1/FSM 1646 210114\r\n EHAM\r\nCV7153 TIS RECEIVED\r\nTERMINATION OF ATIS\r\n UPDATE CONTRACT\nABAF","assstat":"skipped"}
+{"timestamp":1610642806.7722509,"station_id":"NormandySR1","channel":2,"freq":131.725,"level":-18,"error":0,"mode":"e","label":"_d","block_id":"Z","ack":"4","tail":"N492MC","assstat":"skipped"}
