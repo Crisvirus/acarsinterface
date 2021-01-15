@@ -103,6 +103,7 @@ span.psw {
         <th scope="col">Registration Number</th>
         <th scope="col">Last Seen</th>
         <th scope="col">Number of messages</th>
+        <th scope="col">Has extra data</th>
         <th scope="col">Action</th>
         </tr>
     </thead>
@@ -119,23 +120,35 @@ span.psw {
             document.getElementById('planes_list').append = "Not Found";
         } else {
             data.forEach(function(value){
-                console.log(value)
                 tr = document.createElement('tr');
                 td1 = document.createElement('td');
                 td2 = document.createElement('td');
                 td3 = document.createElement('td');
+                td5 = document.createElement('td');
                 td4 = document.createElement('td');
                 td1.innerHTML = value.key
                 td2.innerHTML = value.timestamp
                 td3.innerHTML = value.msgno
+                td5.innerHTML = value.extra
                 button = document.createElement('a')
-                button.href = "/" + value.key
-                button.class = "btn btn-primary"
-                button.text = "Open"
+                if(value.extra == 'Yes') {
+                    tr.class = "bg-success"
+                    console.log("extra")
+                    td5.innerHTML= '<span style="color: green;">'+value.extra+'</span>'
+                    button.href = "/" + value.key
+                    button.class = "btn btn-success"
+                    button.text = "Open"
+                } else {
+                    button.href = "/" + value.key
+                    button.class = "btn btn-primary"
+                    button.text = "Open"
+                }
+                
                 td4.appendChild(button);
                 tr.appendChild(td1)
                 tr.appendChild(td2)
                 tr.appendChild(td3)
+                tr.appendChild(td5)
                 tr.appendChild(td4)
                 document.getElementById('planes_list').appendChild(tr)
             });

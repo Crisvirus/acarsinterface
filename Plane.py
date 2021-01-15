@@ -17,6 +17,7 @@ class Plane:
         self.woff = 'Unknown'
         self.messages = []
         self.route = ''
+        self.has_extra = 'No'
 
     def update_last_seen(self, last_seen):
         self.last_seen = last_seen
@@ -34,15 +35,19 @@ class Plane:
         self.eta = eta
 
     def add_gin(self, gin):
+        self.has_extra = 'Yes'
         self.gin = gin
 
     def add_gout(self, gout):
+        self.has_extra = 'Yes'
         self.gout = gout
 
     def add_won(self, won):
+        self.has_extra = 'Yes'
         self.won = won
 
     def add_woff(self, woff):
+        self.has_extra = 'Yes'
         self.woff = woff
 
     def add_message(self, message):
@@ -53,6 +58,7 @@ class Plane:
         output['key'] = self.registration_no
         output['timestamp'] = datetime.fromtimestamp(self.last_seen).strftime("%d-%m-%y %H:%M:%S")
         output['msgno'] = len(self.messages)
+        output['extra'] = self.has_extra
         return output
 
     def getHTML(self):

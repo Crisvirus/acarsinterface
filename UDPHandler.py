@@ -29,6 +29,8 @@ class UDPHandler(threading.Thread):
     def process_data(self,data):
         json_data = json.loads(data)
         if 'tail' in json_data:
+            if json_data['tail'] == '':
+                return
             plane = ''
             if json_data['tail'] in self.planes:
                 plane = self.planes[json_data['tail']]

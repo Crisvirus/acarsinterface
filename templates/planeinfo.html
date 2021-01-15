@@ -57,9 +57,16 @@
                 <h5 class="card-title">{{msg.get_timestamp()}}</h5>
                 <p class="card-text">{{msg.get_text()}}</p>
                 </div>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal{{loop.index}}">
-                    Expand
-                </button>
+
+                {% if msg.getType() == 'text' %}
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal{{loop.index}}">
+                        Expand
+                    </button>
+                {% else %}
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal{{loop.index}}">
+                        Expand
+                    </button>
+                {% endif %}
             </div>
             <div class="modal fade bd-example-modal-lg" id="modal{{loop.index}}" tabindex="-1" role="dialog" aria-labelledby="exampleModal{{loop.index}}" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
