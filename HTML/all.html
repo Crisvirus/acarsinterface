@@ -85,14 +85,14 @@ span.psw {
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-        <li class="nav-item active">
-            <a class="nav-link" href="#">Last hour<span class="sr-only">(current)</span></a>
+        <li class="nav-item">
+            <a class="nav-link" href="/">Last hour</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/last_24.html">Last 24 hours</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/all.html">All planes</a>
+        <li class="nav-item active">
+            <a class="nav-link" href="#">All planes<span class="sr-only">(current)</span></a>
         </li>
         </ul>
     </div>
@@ -113,7 +113,7 @@ span.psw {
 
 </body>
 <script>
-    $.get("/planes_list_1",function(data,status){
+    $.get("/planes_list_all",function(data,status){
         // console.log(data);
         if(data.length == 0) {
             document.getElementById('planes_list').append = "Not Found";

@@ -76,7 +76,10 @@ class UDPHandler(threading.Thread):
             self.process_data(data)
 
     def get_list_of_planes(self):
-        return list(self.planes.keys())
+        return_list = []
+        for key in self.planes:
+            return_list.append(self.planes[key].get_brief())
+        return return_list
     
     def get_list_of_planes_last_24(self):
         return_list = []
@@ -86,6 +89,13 @@ class UDPHandler(threading.Thread):
                 return_list.append(self.planes[key].get_brief())
         return return_list
 
+    def get_list_of_planes_last_1(self):
+        return_list = []
+        for key in self.planes:
+            timestamp = self.planes[key].last_seen
+            if timestamp > time.time() - 1*60*60:
+                return_list.append(self.planes[key].get_brief())
+        return return_list
         
     def getPlaneHTMLByName(self,plane_name):
         if plane_name in self.planes:
