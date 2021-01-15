@@ -48,14 +48,39 @@
     </tbody>
 </table>
 
-<div class="container mt-4">
+<div class="container">
     <div class="row">
-        <div class="col-auto mb-3">
+        <div class="col">
+            <div class="card border-primary mb-3" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Plane position</h5>
+                    <p class="card-text">Latitude: {{lat}} <br>
+                        Longitude: {{lon}}<br>
+                        Altitude: {{alt}} m<br>
+                        Speed: {{speed}} km/h<br>
+                        Heading {{hdg}}
+                    </p>
+                    <a class="btn btn-primary" target="_blank" href = "https://www.google.com/maps/search/?api=1&query={{lat}},{{lon}}">Show on map</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card border-primary mb-3" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Meteo</h5>
+                    <p class="card-text">Speed: {{m_speed}} km/h<br>
+                        Direction: {{m_dir}}<br>
+                        Temp: {{m_temp}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
             {% for msg in messages %}
             <div class="card border-primary mb-3" style="width: 18rem;">
                 <div class="card-body">
-                <h5 class="card-title">{{msg.get_timestamp()}}</h5>
-                <p class="card-text">{{msg.get_text()}}</p>
+                    <h5 class="card-title">{{msg.get_timestamp()}}</h5>
+                    <p class="card-text">{{msg.get_text()}}</p>
                 </div>
 
                 {% if msg.getType() == 'text' %}

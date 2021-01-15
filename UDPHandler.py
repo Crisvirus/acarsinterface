@@ -60,17 +60,39 @@ class UDPHandler(threading.Thread):
                 if 'libacars' in json_data:
                     mtype = 'libacars'
                     json_content = json_data['libacars']
+                    if 'arinc622' in json_content:
+                        if json_content["arinc622"]["msg_type"] == 'adsc_msg':
+                            adsc_msg = json_content["arinc622"]["adsc"]
+                            tags = adsc_msg['tags']
+                            for tag in tags:
+                                if 'basic_report' in tag:
+                                    basic = tag['basic_report']
+                                    plane.lat = basic['lat']
+                                    plane.lon = basic['lon']
+                                    plane.alt = int(float(basic['alt'])*0.3048)
+
+                                if 'earth_ref_data' in tag:
+                                    basic = tag['earth_ref_data']
+                                    plane.speed = int(float(basic['gnd_spd_kts'])*1.852)
+                                    plane.heading = basic['true_trk_deg']
+
+                                if 'meteo_data' in tag:
+                                    basic = tag['meteo_data']
+                                    plane.m_wind_speed = int(float(basic['wind_spd_kts'])*1.852)
+                                    plane.m_direction = basic['wind_dir_true_deg']
+                                    plane.m_temp = basic['temp_c']
+                                    print(plane.registration_no)
+                                
 
                 if json_data['assstat']=='skipped' or json_data['assstat']=='complete':
                     msg = Message(timestamp,text,mtype,json_content)
                     plane.add_message(msg)
-                else:
-                    print(json_data['assstat'])
+
             self.planes[json_data['tail']] = plane
             # print(plane.get_brief())
             
         else:
-            print("Garbage\n")    
+            return   
         
     def run(self):
         while True:

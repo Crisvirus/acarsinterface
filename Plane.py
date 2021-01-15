@@ -18,6 +18,14 @@ class Plane:
         self.messages = []
         self.route = ''
         self.has_extra = 'No'
+        self.lat = 'Unknown'
+        self.lon = 'Unknown'
+        self.alt = 'Unknown'
+        self.speed = 'Unknown'
+        self.heading = 'Unknown'
+        self.m_wind_speed = 'Unknown'
+        self.m_direction = 'Unknown'
+        self.m_temp = 'Unknown'
 
     def update_last_seen(self, last_seen):
         self.last_seen = last_seen
@@ -67,4 +75,23 @@ class Plane:
         templateLoader = jinja2.FileSystemLoader(searchpath="./templates")
         templateEnv = jinja2.Environment(loader=templateLoader)
         template = templateEnv.get_template('planeinfo.html')
-        return template.render(gin = self.gin, gout = self.gout, won = self.won, woff = self.woff, registration_no=self.registration_no, flight_no = self.flight_no, departure_airport = self.departure_airport, destination_airport = self.destination_airport, first_seen = str(first_dt), last_seen = str(last_dt), msg_no = str(len(self.messages)), messages = self.messages)
+        return template.render(gin = self.gin, 
+                                gout = self.gout, 
+                                won = self.won, 
+                                woff = self.woff, 
+                                registration_no=self.registration_no, 
+                                flight_no = self.flight_no, 
+                                departure_airport = self.departure_airport, 
+                                destination_airport = self.destination_airport, 
+                                first_seen = str(first_dt), 
+                                last_seen = str(last_dt), 
+                                msg_no = str(len(self.messages)), 
+                                messages = self.messages,
+                                lat = str(self.lat),
+                                lon = str(self.lon),
+                                alt = str(self.alt),
+                                speed = str(self.speed),
+                                hdg = str(self.heading),
+                                m_speed = str(self.m_wind_speed),
+                                m_dir = str(self.m_direction),
+                                m_temp = str(self.m_temp))
