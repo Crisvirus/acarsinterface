@@ -26,6 +26,8 @@ class Plane:
         self.m_wind_speed = 'Unknown'
         self.m_direction = 'Unknown'
         self.m_temp = 'Unknown'
+        self.has_location = 'No'
+        self.has_meteo = 'No'
 
     def update_last_seen(self, last_seen):
         self.last_seen = last_seen
@@ -67,6 +69,8 @@ class Plane:
         output['timestamp'] = datetime.fromtimestamp(self.last_seen).strftime("%d-%m-%y %H:%M:%S")
         output['msgno'] = len(self.messages)
         output['extra'] = self.has_extra
+        output['location'] = self.has_location
+        output['meteo'] = self.has_meteo
         return output
 
     def getHTML(self):

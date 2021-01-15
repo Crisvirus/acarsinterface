@@ -104,6 +104,8 @@ span.psw {
         <th scope="col">Last Seen</th>
         <th scope="col">Number of messages</th>
         <th scope="col">Has extra data</th>
+        <th scope="col">Has location</th>
+        <th scope="col">Has meteo</th>
         <th scope="col">Action</th>
         </tr>
     </thead>
@@ -126,10 +128,14 @@ span.psw {
                 td3 = document.createElement('td');
                 td5 = document.createElement('td');
                 td4 = document.createElement('td');
+                td6 = document.createElement('td');
+                td7 = document.createElement('td');
                 td1.innerHTML = value.key
                 td2.innerHTML = value.timestamp
                 td3.innerHTML = value.msgno
                 td5.innerHTML = value.extra
+                td6.innerHTML = value.location
+                td7.innerHTML = value.meteo
                 button = document.createElement('a')
                 if(value.extra == 'Yes') {
                     tr.class = "bg-success"
@@ -149,6 +155,8 @@ span.psw {
                 tr.appendChild(td2)
                 tr.appendChild(td3)
                 tr.appendChild(td5)
+                tr.appendChild(td6)
+                tr.appendChild(td7)
                 tr.appendChild(td4)
                 document.getElementById('planes_list').appendChild(tr)
             });
