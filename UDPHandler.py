@@ -119,6 +119,7 @@ class UDPHandler(threading.Thread):
                 self.process_data(data)
             except:
                 print("Not a JSON")
+                print(data)
         self.cleanup()
 
     def stop(self):
