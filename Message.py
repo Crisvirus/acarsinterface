@@ -18,6 +18,10 @@ class Message:
         if self.mtype == "libacars":
             template = templateEnv.get_template('json_message_template.html')
             return template.render(msg = self)
+
+        if self.mtype == 'route':
+            template = templateEnv.get_template('route_message_template.html')
+            return template.render(msg = self)
         return "TODO"
 
     def get_text(self):

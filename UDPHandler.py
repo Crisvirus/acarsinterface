@@ -4,6 +4,7 @@ import socket
 import json
 import time
 import glob
+import re
 from datetime import datetime
 from Message import Message
 class UDPHandler(threading.Thread):
@@ -60,6 +61,12 @@ class UDPHandler(threading.Thread):
                 timestamp = json_data['timestamp']
                 text = json_data['text']
                 mtype = 'text'
+                sentaces = text.split('\n')
+                for sentace in sentaces:
+                    x = re.search("[A-Z]{5}\.[A-Z]{5}\.[A-Z]{5}", sentace)
+                    if x:
+                        mtype = 'route'
+                        plane.addRoute(sentace)
                 json_content = ''
                 if 'libacars' in json_data:
                     mtype = 'libacars'
@@ -93,6 +100,7 @@ class UDPHandler(threading.Thread):
                 if json_data['assstat']=='skipped' or json_data['assstat']=='complete':
                     msg = Message(self.current_msg_id,timestamp,text,mtype,json_content)
                     plane.add_message(msg)
+                    self.current_msg_id += 1
 
             self.planes[json_data['tail']] = plane
             # print(plane.get_brief())

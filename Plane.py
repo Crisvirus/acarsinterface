@@ -29,6 +29,9 @@ class Plane:
         self.has_location = 'No'
         self.has_meteo = 'No'
 
+    def addRoute(self,sentance):
+        self.route = sentance
+
     def update_last_seen(self, last_seen):
         self.last_seen = last_seen
 

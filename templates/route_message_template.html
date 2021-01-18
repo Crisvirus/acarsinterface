@@ -1,10 +1,10 @@
-<div class="card text-white bg-dark border-info mb-3" style="width: 20rem;">
+<div class="card border-warning text-white bg-dark mb-3" style="width: 20rem;">
     <div class="card-body">
-        <h5 class="card-title">JSON Message</h5>
+        <h5 class="card-title">Route Message</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{msg.get_timestamp()}}</h6>
         <p class="card-text">{{msg.get_text()}}</p>
     </div>
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal{{msg.id}}">
+    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal{{msg.id}}">
         Expand
     </button>
 </div>
@@ -18,13 +18,7 @@
             </button>
         </div>
         <div class="modal-body modalText">
-            <div id="container{{msg.id}}"></div>
-            <script>
-                renderjson.set_show_to_level("all");
-                document.getElementById("container{{msg.id}}").appendChild(
-                    renderjson(JSON.parse('{{msg.getJson()}}'))
-                );
-            </script>
+                {{msg.get_text()}}
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
