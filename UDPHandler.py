@@ -36,12 +36,17 @@ class UDPHandler(threading.Thread):
                     print("Not a JSON")
                     print(line)
 
-    def checkRouteRegex(self,sentance):
-        if re.search("[A-Z]{5}\.[A-Z]{5}\.[A-Z]{5}", sentance):
-            return True
-        if re.search(",[0-9]{5}\.[A-Z]{5},[0-9]{5}\.[A-Z]{5},[0-9]{5}\.[A-Z]{5}", sentance):
-            return True
-        return False
+    def checkRegex(self,sentance):
+        if re.search(r"[A-Z]{5}\.[A-Z]{5}\.[A-Z]{5}", sentance):
+            return "route"
+        if re.search(r",[0-9]{5}\.[A-Z]{5},[0-9]{5}\.[A-Z]{5},[0-9]{5}\.[A-Z]{5}", sentance):
+            return "route"
+        if re.search(r"CLEARANCE", sentance):
+            return "clearance"
+        if re.search(r"CLRD TO", sentance):
+            return "takeoff"
+        return "text"
+
     def process_data(self,json_data):
         if 'tail' in json_data:
             if json_data['tail'] == '':
@@ -73,10 +78,14 @@ class UDPHandler(threading.Thread):
                 mtype = 'text'
                 sentances = text.split('\n')
                 for sentance in sentances:
-                    x = self.checkRouteRegex(sentance)
-                    if x:
-                        mtype = 'route'
+                    stype = self.checkRegex(sentance)
+                    if stype == 'route':
                         plane.addRoute(sentance)
+                        mtype = 'route'
+                    if stype == 'clearance':
+                        mtype = 'clearance'
+                    if stype == 'takeoff':
+                        mtype = 'takeoff'
                 json_content = ''
                 if 'libacars' in json_data:
                     mtype = 'libacars'

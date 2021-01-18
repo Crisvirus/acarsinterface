@@ -22,7 +22,20 @@ class Message:
         if self.mtype == 'route':
             template = templateEnv.get_template('route_message_template.html')
             return template.render(msg = self)
-        return "TODO"
+        
+        if self.mtype == 'clearance':
+            print(self.mtype)
+            template = templateEnv.get_template('clearance_message_template.html')
+            return template.render(msg = self)
+
+        if self.mtype == 'takeoff':
+            print(self.mtype)
+            template = templateEnv.get_template('takeoff_message_template.html')
+            return template.render(msg = self)
+
+        template = templateEnv.get_template('text_message_template.html')
+        return template.render(msg = self)
+        
 
     def get_text(self):
         return self.text
