@@ -15,8 +15,8 @@ class Message:
         if self.mtype == "text":
             template = templateEnv.get_template('text_message_template.html')
             return template.render(msg = self)
-        if self.mtype == "libacars":
-            template = templateEnv.get_template('json_message_template.html')
+        if self.mtype == "arinc622":
+            template = templateEnv.get_template('arinc622_message_template.html')
             return template.render(msg = self)
 
         if self.mtype == 'route':

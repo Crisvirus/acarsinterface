@@ -9,19 +9,35 @@
 
 <!-- PROJECT LOGO -->
 <br />
-  <h3 align="center">Acarsinterface</h3>
+<p align="center">
 
+  <h3 align="center">Acars Interface</h3>
+
+  <p align="center">
+    Web Interface for acarsdec
+    <br />
+  </p>
+</p>
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-[![Acarsinterface plane info][plane_info]]
-TO DO
+
+This project is a webserver that displays data, captured with acarsdec, in a more friendly way. It groups the ACARS messages for each plane.
+The main page displays all the planes captured in the last hour, with brief information about each of them.
+![Acarsinterface main page][last_hour_index]
+
+Each plane page has the same brief at the top, and a collection of cards. The first 3 are always present, and they show information that could be extracted from the ACARS messages. The rest of them are cards showing the messages received in the last 8 hours. There are 3 types of cards:
+
+    * Text Message: The default card
+    * Arinc 622 card: Shows the data in a JSON format
+    * Route Card: Contains route infromation, usualy a list of waypoints separated by '.'
+
+![Acarsinterface plane info][plane_info]
 
 ### Built With
 
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-* [Pyhon](https://www.python.org/)
+* [Python](https://www.python.org/)
 * [My fork of acarsdec](https://github.com/Crisvirus/acarsdec)
 * [libacars](https://github.com/szpajder/libacars)
 * [Bootstrap](https://getbootstrap.com)
@@ -33,48 +49,43 @@ This section should list any major frameworks that you built your project using.
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-TODO
-
+For my project I had to add another field to the JSON output of acarsdec. This is why my fork of acarsdec is needed.
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+The folowing are needed for this project to work
+* Python 3: I made the project using Python 3.8.5, but it could work with older versions, but it must be Python 3
+* libacars - follow the instruction from here : https://github.com/szpajder/libacars
+* acarsdec - my fork of acarsdec is needed for now, follow installation instructions from there : https://github.com/Crisvirus/acarsdec
+* Jinja -
   ```sh
-  npm install npm@latest -g
+  pip3 install Jinja2
   ```
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```JS
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-
+1. It's written in Python, so no installation required, just clone the repo
+```sh
+git clone https://github.com/Crisvirus/acarsinterface
+```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+1. First, start the server using 
+```sh
+python3 server.py
+```
 
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
+2. Start acarsdec. You can run acarsdec on the same machine, or on any machine that can reach the server
+```sh
+acarsdec -j <ip-of-the-server>:5555 -r 0 131.550 131.525 131.725 131.850 131.825
+```
+The frequencies used are an example for Europe. For other areas search online for the usually used ACARS frequencies.
 
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/Crisvirus/acarsinterface/issues) for a list of proposed features (and known issues).
 
 
 
@@ -82,13 +93,6 @@ See the [open issues](https://github.com/othneildrew/Best-README-Template/issues
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 
 
 <!-- LICENSE -->
@@ -100,8 +104,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 ## Contact
-
-<!-- Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com -->
 
 Project Link: [https://github.com/Crisvirus/acarsinterface](https://github.com/Crisvirus/acarsinterface)
 

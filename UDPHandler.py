@@ -72,6 +72,7 @@ class UDPHandler(threading.Thread):
                     mtype = 'libacars'
                     json_content = json_data['libacars']
                     if 'arinc622' in json_content:
+                        mtype = 'arinc622'
                         if json_content["arinc622"]["msg_type"] == 'adsc_msg':
                             adsc_msg = json_content["arinc622"]["adsc"]
                             tags = adsc_msg['tags']
