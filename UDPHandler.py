@@ -119,7 +119,7 @@ class UDPHandler(threading.Thread):
             data, address = self.sock.recvfrom(4096)
             try:
                 json_data = json.loads(data)
-                # self.logfile.write(data.decode())
+                self.logfile.write(data.decode())
                 self.process_data(json_data)
             except:
                 print("Not a JSON")
