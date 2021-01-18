@@ -9,13 +9,13 @@
 
 <!-- PROJECT LOGO -->
 <br />
-  <h3 align="center">acarsinterface</h3>
+  <h3 align="center">Acarsinterface</h3>
 
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
+[![Acarsinterface plane info][plane_info]]
 TO DO
 
 ### Built With
@@ -117,7 +117,7 @@ Project Link: [https://github.com/Crisvirus/acarsinterface](https://github.com/C
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/Crisvirus/acarsinterface.svg?style=for-the-badge
 [contributors-url]: https://github.com/Crisvirus/acarsinterface/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks//Crisvirus/acarsinterface.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/Crisvirus/acarsinterface.svg?style=for-the-badge
 [forks-url]: https://github.com/Crisvirus/acarsinterface/network/members
 [stars-shield]: https://img.shields.io/github/stars/Crisvirus/acarsinterface.svg?style=for-the-badge
 [stars-url]: https://github.com/Crisvirus/acarsinterface/stargazers
@@ -125,4 +125,5 @@ Project Link: [https://github.com/Crisvirus/acarsinterface](https://github.com/C
 [issues-url]: https://github.com/Crisvirus/acarsinterface/issues
 [license-shield]: https://img.shields.io/github/license/Crisvirus/acarsinterface.svg?style=for-the-badge
 [license-url]: https://github.com/Crisvirus/acarsinterface/blob/master/LICENSE.txt
-<!-- [product-screenshot]: images/screenshot.png -->
+[last_hour_index]: images/last_hour_index.jpg
+[plane_info]: images/plane_info.jpg
