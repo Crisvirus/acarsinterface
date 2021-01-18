@@ -4,12 +4,16 @@ import socket
 import json
 import time
 import glob
+from datetime import datetime
 from Message import Message
 class UDPHandler(threading.Thread):
     def __init__(self, port):
         threading.Thread.__init__(self)
+        self._stop_event = threading.Event()
         self.port = port
         self.planes = {}
+        self.current_msg_id = 0
+        self.logfile = open("./acarsdata/"+str(datetime.fromtimestamp(time.time()).strftime("%d-%m-%y %H:%M:%S")) + ".out", "w")
 
     def init_socket(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -87,7 +91,7 @@ class UDPHandler(threading.Thread):
                                 
 
                 if json_data['assstat']=='skipped' or json_data['assstat']=='complete':
-                    msg = Message(timestamp,text,mtype,json_content)
+                    msg = Message(self.current_msg_id,timestamp,text,mtype,json_content)
                     plane.add_message(msg)
 
             self.planes[json_data['tail']] = plane
@@ -97,9 +101,24 @@ class UDPHandler(threading.Thread):
             return   
         
     def run(self):
-        while True:
-            data, address = self.sock.recvfrom(4096) 
-            self.process_data(data)
+        while not self._stop_event.is_set():
+            # print(self._stop_event.is_set())
+            data, address = self.sock.recvfrom(4096)
+            try:
+                json.loads(data)
+                self.logfile.write(data)
+                self.process_data(data)
+            except:
+                print("Not a JSON")
+        self.cleanup()
+
+    def stop(self):
+        self._stop_event.set()
+
+    def cleanup(self):
+        print("Thread is cleaning up!\n")
+        self.sock.close()
+        self.logfile.close()
 
     def get_list_of_planes(self):
         return_list = []

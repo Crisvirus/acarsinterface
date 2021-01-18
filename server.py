@@ -14,5 +14,6 @@ try:
     httpd.serve_forever()
 
 except KeyboardInterrupt:
-	print('^C received, shutting down the web server')
-	handler.join()
+    print('^C received, shutting down the web server')
+    handler.stop()
+    handler.join()

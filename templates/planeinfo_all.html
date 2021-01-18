@@ -10,13 +10,17 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style>
+body {
+  background-color: #292b2c;
+  color: white;
+}
 .modal-body {
     white-space: pre-wrap;
 }
 </style>
 
-<table class="table table-responsive">
-    <thead class="thead-dark">
+<table class="table table-dark">
+    <thead>
     <tr>
         <th scope="col">Registartion Number</th>
         <th scope="col">Flight Number</th>
@@ -51,7 +55,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <div class="card border-primary mb-3" style="width: 18rem;">
+            <div class="card text-white bg-dark mb-3" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">Plane position</h5>
                     <p class="card-text">Latitude: {{lat}} <br>
@@ -65,7 +69,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card border-primary mb-3" style="width: 18rem;">
+            <div class="card text-white bg-dark mb-3" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">Meteo</h5>
                     <p class="card-text">Speed: {{m_speed}} km/h<br>
@@ -76,7 +80,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card border-primary mb-3" style="width: 18rem;">
+            <div class="card text-white bg-dark mb-3" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">Messages</h5>
                     <p class="card-text">
@@ -89,50 +93,7 @@
     </div>
     <div class = "row">
         {% for msg in messages %}
-        <div class="card border-primary mb-3" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">{{msg.get_timestamp()}}</h5>
-                <p class="card-text">{{msg.get_text()}}</p>
-            </div>
-
-            {% if msg.getType() == 'text' %}
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal{{loop.index}}">
-                    Expand
-                </button>
-            {% else %}
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal{{loop.index}}">
-                    Expand
-                </button>
-            {% endif %}
-        </div>
-        <div class="modal fade bd-example-modal-lg" id="modal{{loop.index}}" tabindex="-1" role="dialog" aria-labelledby="exampleModal{{loop.index}}" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModal{{loop.index}}">{{msg.get_timestamp()}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body modalText">
-                    {% if msg.getType() == 'text' %}
-                        {{msg.get_text()}}
-                    {% else %}
-                        <div id="container{{loop.index}}"></div>
-                        <script>
-                            renderjson.set_show_to_level("all");
-                            document.getElementById("container{{loop.index}}").appendChild(
-                                renderjson(JSON.parse('{{msg.getJson()}}'))
-                            );
-                        </script>
-                    {% endif %}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-                </div>
-            </div>
-        </div>
+            {{msg.getHTMLMessage()}}
         {% endfor %}
     </div>
 </div>

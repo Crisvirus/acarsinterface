@@ -32,12 +32,6 @@ def MakeHandlerClassFromArgv(planes_handler):
                 self.wfile.write(bytearray(f.read(),"UTF-8"))
                 f.close()
                 return
-            # if self.path=="/scripts/treeview.js":
-            #     f = open(curdir + sep + "scripts/treeview.js")
-            #     self._set_response('application/javascript')
-            #     self.wfile.write(bytearray(f.read(),"UTF-8"))
-            #     f.close()
-            #     return
 
             if self.path=="/planes_list_all":
                 self._set_response('application/json')

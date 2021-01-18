@@ -1,2 +1,2 @@
-./acarsdata/*
-./__pycache__/*
+acarsdata
+__pycache__

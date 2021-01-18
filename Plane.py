@@ -7,7 +7,6 @@ class Plane:
         self.registration_no = registration_no
         self.first_seen = timestamp
         self.last_seen = timestamp
-        registration_no = ''
         self.flight_no = 'Unknown'
         self.departure_airport = 'Unknown'
         self.destination_airport = 'Unknown'
