@@ -1,6 +1,7 @@
 import jinja2
 from datetime import datetime
 from Message import Message
+import time
 class Plane:
     def __init__(self, registration_no, timestamp):
         self.registration_no = registration_no
@@ -73,12 +74,45 @@ class Plane:
         output['meteo'] = self.has_meteo
         return output
 
-    def getHTML(self):
+    def getLast8HTML(self):
         first_dt = datetime.fromtimestamp(self.first_seen).strftime("%d-%m-%y %H:%M:%S")
         last_dt = datetime.fromtimestamp(self.last_seen).strftime("%d-%m-%y %H:%M:%S")
         templateLoader = jinja2.FileSystemLoader(searchpath="./templates")
         templateEnv = jinja2.Environment(loader=templateLoader)
         template = templateEnv.get_template('planeinfo.html')
+        last8hmessages = []
+        for msg in self.messages:
+            if msg.timestamp > time.time() - 8*60*60:
+                last8hmessages.append(msg)
+        
+        return template.render(gin = self.gin, 
+                                gout = self.gout, 
+                                won = self.won, 
+                                woff = self.woff, 
+                                registration_no=self.registration_no, 
+                                flight_no = self.flight_no, 
+                                departure_airport = self.departure_airport, 
+                                destination_airport = self.destination_airport, 
+                                first_seen = str(first_dt), 
+                                last_seen = str(last_dt), 
+                                msg_no = str(len(self.messages)), 
+                                messages = last8hmessages,
+                                msg_last_8 = len(last8hmessages),
+                                lat = str(self.lat),
+                                lon = str(self.lon),
+                                alt = str(self.alt),
+                                speed = str(self.speed),
+                                hdg = str(self.heading),
+                                m_speed = str(self.m_wind_speed),
+                                m_dir = str(self.m_direction),
+                                m_temp = str(self.m_temp))
+
+    def getHTML(self):
+        first_dt = datetime.fromtimestamp(self.first_seen).strftime("%d-%m-%y %H:%M:%S")
+        last_dt = datetime.fromtimestamp(self.last_seen).strftime("%d-%m-%y %H:%M:%S")
+        templateLoader = jinja2.FileSystemLoader(searchpath="./templates")
+        templateEnv = jinja2.Environment(loader=templateLoader)
+        template = templateEnv.get_template('planeinfo_all.html')
         return template.render(gin = self.gin, 
                                 gout = self.gout, 
                                 won = self.won, 

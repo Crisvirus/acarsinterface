@@ -123,8 +123,14 @@ class UDPHandler(threading.Thread):
                 return_list.append(self.planes[key].get_brief())
         return return_list
         
-    def getPlaneHTMLByName(self,plane_name):
+    def getPlaneAllHTMLByName(self,plane_name):
         if plane_name in self.planes:
             return self.planes[plane_name].getHTML()
+        else:
+            return "<html>Plane Not Found<\\html>"
+
+    def getPlaneLast8hHTMLByName(self,plane_name):
+        if plane_name in self.planes:
+            return self.planes[plane_name].getLast8HTML()
         else:
             return "<html>Plane Not Found<\\html>"

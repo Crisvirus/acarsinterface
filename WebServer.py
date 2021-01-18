@@ -54,8 +54,16 @@ def MakeHandlerClassFromArgv(planes_handler):
                 self.wfile.write(bytearray(json.dumps(planes_handler.get_list_of_planes_last_1()),"UTF-8"))
                 return
             
-            plane_name = self.path[1:]
-            self._set_response('text/html')
-            self.wfile.write(bytearray(planes_handler.getPlaneHTMLByName(plane_name),"UTF-8"))
-            return
+            if '/all' in self.path:
+                print(self.path.split('/'))
+                plane_name = self.path.split('/')[1]
+                self._set_response('text/html')
+                self.wfile.write(bytearray(planes_handler.getPlaneAllHTMLByName(plane_name),"UTF-8"))
+                return
+            else:
+                plane_name = self.path[1:]
+                self._set_response('text/html')
+                self.wfile.write(bytearray(planes_handler.getPlaneLast8hHTMLByName(plane_name),"UTF-8"))
+                return
+                
     return WebServer
