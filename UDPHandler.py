@@ -36,6 +36,12 @@ class UDPHandler(threading.Thread):
                     print("Not a JSON")
                     print(line)
 
+    def checkRouteRegex(self,sentance):
+        if re.search("[A-Z]{5}\.[A-Z]{5}\.[A-Z]{5}", sentance):
+            return True
+        if re.search(",[0-9]{5}\.[A-Z]{5},[0-9]{5}\.[A-Z]{5},[0-9]{5}\.[A-Z]{5}", sentance):
+            return True
+        return False
     def process_data(self,json_data):
         if 'tail' in json_data:
             if json_data['tail'] == '':
@@ -65,12 +71,12 @@ class UDPHandler(threading.Thread):
                 timestamp = json_data['timestamp']
                 text = json_data['text']
                 mtype = 'text'
-                sentaces = text.split('\n')
-                for sentace in sentaces:
-                    x = re.search("[A-Z]{5}\.[A-Z]{5}\.[A-Z]{5}", sentace)
+                sentances = text.split('\n')
+                for sentance in sentances:
+                    x = self.checkRouteRegex(sentance)
                     if x:
                         mtype = 'route'
-                        plane.addRoute(sentace)
+                        plane.addRoute(sentance)
                 json_content = ''
                 if 'libacars' in json_data:
                     mtype = 'libacars'

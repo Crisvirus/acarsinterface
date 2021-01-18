@@ -11,16 +11,16 @@
 <div class="modal fade bd-example-modal-lg" id="modal{{msg.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModal{{msg.id}}" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-dark">
             <h5 class="modal-title" id="exampleModal{{msg.id}}">{{msg.get_timestamp()}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="modal-body modalText">
+        <div class="modal-body bg-dark modalText">
                 {{msg.get_text()}}
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer bg-dark">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
         </div>

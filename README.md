@@ -84,8 +84,11 @@ The frequencies used are an example for Europe. For other areas search online fo
 
 <!-- ROADMAP -->
 ## Roadmap
+Features that are on the TODO list:
 
-See the [open issues](https://github.com/Crisvirus/acarsinterface/issues) for a list of proposed features (and known issues).
+    * Login with username and password
+    * Https support
+    * More types of messages with more information extracted from the text
 
 
 
