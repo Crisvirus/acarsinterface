@@ -15,7 +15,7 @@ class Message:
         if self.mtype == "text":
             template = templateEnv.get_template('text_message_template.html')
             return template.render(msg = self)
-        if self.mtype == "arinc622":
+        if self.mtype == "arinc622" or self.mtype == "libacars":
             template = templateEnv.get_template('arinc622_message_template.html')
             return template.render(msg = self)
 

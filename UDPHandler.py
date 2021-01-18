@@ -14,7 +14,7 @@ class UDPHandler(threading.Thread):
         self.port = port
         self.planes = {}
         self.current_msg_id = 0
-        self.logfile = open("./acarsdata/"+str(datetime.fromtimestamp(time.time()).strftime("%d-%m-%y %H:%M:%S")) + ".out", "w")
+        self.logfile = open("./acarsdata/"+str(datetime.fromtimestamp(time.time()).strftime("%d-%m-%y-%H:%M:%S")) + ".out", "w")
 
     def init_socket(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -24,15 +24,19 @@ class UDPHandler(threading.Thread):
         path = './acarsdata/*'
         files = glob.glob(path)
         for file in files:
+            print(file)
             f = open(file,'r')
-            f.readline()
             lines = f.readlines()
             f.close()
             for line in lines:
-                self.process_data(line)
+                try:
+                    json_data = json.loads(line)
+                    self.process_data(json_data)
+                except:
+                    print("Not a JSON")
+                    print(line)
 
-    def process_data(self,data):
-        json_data = json.loads(data)
+    def process_data(self,json_data):
         if 'tail' in json_data:
             if json_data['tail'] == '':
                 return
@@ -114,21 +118,22 @@ class UDPHandler(threading.Thread):
             # print(self._stop_event.is_set())
             data, address = self.sock.recvfrom(4096)
             try:
-                json.loads(data)
-                self.logfile.write(data)
-                self.process_data(data)
+                json_data = json.loads(data)
+                # self.logfile.write(data.decode())
+                self.process_data(json_data)
             except:
                 print("Not a JSON")
                 print(data)
         self.cleanup()
 
     def stop(self):
+        self.logfile.close()
         self._stop_event.set()
 
     def cleanup(self):
         print("Thread is cleaning up!\n")
         self.sock.close()
-        self.logfile.close()
+        
 
     def get_list_of_planes(self):
         return_list = []

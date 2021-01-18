@@ -33,7 +33,8 @@ class Plane:
         self.route = sentance
 
     def update_last_seen(self, last_seen):
-        self.last_seen = last_seen
+        if last_seen > self.last_seen:
+            self.last_seen = last_seen
 
     def add_flight_no(self, flight_no):
         self.flight_no = flight_no
