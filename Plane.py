@@ -75,6 +75,12 @@ class Plane:
         output['extra'] = self.has_extra
         output['location'] = self.has_location
         output['meteo'] = self.has_meteo
+        i = 0
+        for msg in self.messages:
+            if msg.timestamp > time.time() - 1*60*60:
+                i+=1
+
+        output['msgno_1h'] = i
         return output
 
     def getLast8HTML(self):
