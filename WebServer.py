@@ -52,20 +52,28 @@ def MakeHandlerClassFromArgv(planes_handler):
                 tokens = self.path.split('/')
                 print(tokens)
                 plane_name = tokens[2]
-                self._set_response('text/html')
-                if len(tokens) == 4:
+                if len(tokens) >= 4:
                     if tokens[3] == 'all':
+                        self._set_response('text/html')
                         self.wfile.write(bytearray(planes_handler.getPlaneAllHTMLByName(plane_name),"UTF-8"))
                         return
                     
                     if tokens[3] == '8h':
+                        self._set_response('text/html')
                         self.wfile.write(bytearray(planes_handler.getPlaneLast8hHTMLByName(plane_name),"UTF-8"))
                         return
                     
                     try:
-                        msg_id = int(tokens[3])
-                        self.wfile.write(bytearray(planes_handler.getPlaneRouteById(plane_name,msg_id),"UTF-8"))
-                        return
+                        if len(tokens) == 4:
+                            msg_id = int(tokens[3])
+                            self._set_response('text/html')
+                            self.wfile.write(bytearray(planes_handler.getPlaneRouteById(plane_name,msg_id),"UTF-8"))
+                            return
+                        if len(tokens) == 5:
+                            self._set_response('application/json')
+                            msg_id = int(tokens[3])
+                            self.wfile.write(bytearray(planes_handler.getPlaneRouteJSONById(plane_name,msg_id),"UTF-8"))
+                            return
                     except:
                         print("Not ID "+ tokens[3])
                 

@@ -73,7 +73,13 @@ class Plane:
             return self.messages[message_id].getRouteHTML(waypointsDB)
         else:
             return "Id was not found"
-            
+
+    def getRouteJSON(self,message_id, waypointsDB):
+        if message_id in self.messages:
+            return self.messages[message_id].getRouteJSON(waypointsDB)
+        else:
+            return "[]"
+     
     def get_brief(self):
         output = {}
         output['key'] = self.registration_no

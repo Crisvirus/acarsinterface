@@ -217,7 +217,13 @@ class UDPHandler(threading.Thread):
             return self.planes[plane_name].getHTML()
         else:
             return "<html>Plane Not Found<\\html>"
-
+    
+    def getPlaneRouteJSONById(self, plane_name, msg_id):
+        if plane_name in self.planes:
+            return self.planes[plane_name].getRouteJSON(msg_id,self.waypointsDB)
+        else:
+            return "[]"
+    
     def getPlaneRouteById(self, plane_name, msg_id):
         if plane_name in self.planes:
             return self.planes[plane_name].getRoute(msg_id,self.waypointsDB)
