@@ -7,14 +7,18 @@ import glob
 import re
 from datetime import datetime
 from Message import Message
+from WaypointDB import Waypoint
+from WaypointDB import WaypointDB
+
 class UDPHandler(threading.Thread):
-    def __init__(self, port):
+    def __init__(self, port, waypointsDB):
         threading.Thread.__init__(self)
         self._stop_event = threading.Event()
         self.port = port
         self.planes = {}
         self.current_msg_id = 0
         self.logfile = open("./acarsdata/"+str(datetime.fromtimestamp(time.time()).strftime("%d-%m-%y-%H:%M:%S")) + ".out", "w")
+        self.waypointsDB = waypointsDB
 
     def init_socket(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -45,9 +49,11 @@ class UDPHandler(threading.Thread):
         if re.search(r"CLRD TO", sentance):
             return "takeoff"
         return "text"
-    def handleRouteMessage(self,plane,msg,sentance,text):
+
+    def handleRouteMessage(self,plane,msg,sentance,text,):
         plane.addRoute(sentance)
         msg.mtype = 'route'
+        msg.parseRoute(sentance)
         return plane, msg
 
     def handleClearanceMessage(self,plane,msg,sentance,text):
@@ -212,6 +218,12 @@ class UDPHandler(threading.Thread):
         else:
             return "<html>Plane Not Found<\\html>"
 
+    def getPlaneRouteById(self, plane_name, msg_id):
+        if plane_name in self.planes:
+            return self.planes[plane_name].getRoute(msg_id,self.waypointsDB)
+        else:
+            return "<html>Plane Not Found<\\html>"
+    
     def getPlaneLast8hHTMLByName(self,plane_name):
         if plane_name in self.planes:
             return self.planes[plane_name].getLast8HTML()

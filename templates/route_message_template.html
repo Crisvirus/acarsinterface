@@ -4,6 +4,7 @@
         <h6 class="card-subtitle mb-2 text-muted">{{msg.get_timestamp()}}</h6>
         <p class="card-text">{{msg.get_text()}}</p>
     </div>
+    <a href = "{{msg.id}}" target = "_blank" class="btn btn-secondary">Open Route</a>
     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal{{msg.id}}">
         Expand
     </button>

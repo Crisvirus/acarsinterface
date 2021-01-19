@@ -2,6 +2,7 @@ import jinja2
 from datetime import datetime
 from Message import Message
 import time
+from WaypointDB import WaypointDB
 class Plane:
     def __init__(self, registration_no, timestamp):
         self.registration_no = registration_no
@@ -15,7 +16,7 @@ class Plane:
         self.gin = 'Unknown'
         self.won = 'Unknown'
         self.woff = 'Unknown'
-        self.messages = []
+        self.messages = {}
         self.route = ''
         self.has_extra = 'No'
         self.lat = 'Unknown'
@@ -65,8 +66,14 @@ class Plane:
         self.woff = woff
 
     def add_message(self, message):
-        self.messages.append(message)
-
+        self.messages[message.id] = message
+    
+    def getRoute(self,message_id, waypointsDB):
+        if message_id in self.messages:
+            return self.messages[message_id].getRouteHTML(waypointsDB)
+        else:
+            return "Id was not found"
+            
     def get_brief(self):
         output = {}
         output['key'] = self.registration_no
@@ -76,8 +83,8 @@ class Plane:
         output['location'] = self.has_location
         output['meteo'] = self.has_meteo
         i = 0
-        for msg in self.messages:
-            if msg.timestamp > time.time() - 1*60*60:
+        for id in self.messages:
+            if self.messages[id].timestamp > time.time() - 1*60*60:
                 i+=1
 
         output['msgno_1h'] = i
@@ -90,9 +97,9 @@ class Plane:
         templateEnv = jinja2.Environment(loader=templateLoader)
         template = templateEnv.get_template('planeinfo.html')
         last8hmessages = []
-        for msg in self.messages:
-            if msg.timestamp > time.time() - 8*60*60:
-                last8hmessages.append(msg)
+        for id in self.messages:
+            if self.messages[id].timestamp > time.time() - 8*60*60:
+                last8hmessages.append(self.messages[id])
         
         return template.render(gin = self.gin, 
                                 gout = self.gout, 
@@ -122,6 +129,9 @@ class Plane:
         templateLoader = jinja2.FileSystemLoader(searchpath="./templates")
         templateEnv = jinja2.Environment(loader=templateLoader)
         template = templateEnv.get_template('planeinfo_all.html')
+        allmessages = []
+        for id in self.messages:
+            allmessages.append(self.messages[id])
         return template.render(gin = self.gin, 
                                 gout = self.gout, 
                                 won = self.won, 
@@ -133,7 +143,7 @@ class Plane:
                                 first_seen = str(first_dt), 
                                 last_seen = str(last_dt), 
                                 msg_no = str(len(self.messages)), 
-                                messages = self.messages,
+                                messages = allmessages,
                                 lat = str(self.lat),
                                 lon = str(self.lon),
                                 alt = str(self.alt),

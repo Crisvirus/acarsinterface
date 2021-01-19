@@ -1,6 +1,11 @@
 from datetime import datetime
 import json
 import jinja2
+import re
+import urllib.request
+from WaypointDB import Waypoint
+from WaypointDB import WaypointDB
+
 class Message:
     def __init__(self,id,timestamp,text,mtype,json_content):
         self.timestamp = timestamp
@@ -13,6 +18,21 @@ class Message:
         self.dest = 'UNKNOWN'
         self.link = "https://www.lvnl.nl/eaip/2021-01-14-AIRAC/html/eAIP/EH-AD-2.EHAM-en-GB.html#eham-ad-2.24"
         self.is_Schipol = True
+        self.route = ['UNKNOWN']
+
+    def parseRoute(self,route_text):
+        if re.search(r"[A-Z]{5}\.[A-Z]{5}\.[A-Z]{5}", route_text):
+            self.route = re.findall(r"([0-9A-Z]{5})\.",route_text)
+        if re.search(r",[0-9]{5}\.[A-Z]{5},[0-9]{5}\.[A-Z]{5},[0-9]{5}\.[A-Z]{5}", route_text):
+            self.route = re.findall(r",[0-9]{5}\.([A-Z]{5})",route_text)
+
+    def getRouteHTML(self, waypointsDB):
+        return_string = ''
+        for waypoint_name in self.route:
+            waypoint = waypointsDB.getWaypointByName(waypoint_name)
+            if waypoint.name != 'NULL':
+                return_string += waypoint.name +' '+ str(waypoint.lat) +' lat   '+ str(waypoint.lon) +' lon<br>'
+        return return_string
 
     def createLink(self):
         self.link = "https://www.lvnl.nl/eaip/2021-01-14-AIRAC/graphics/eAIP/EH-AD-2.EHAM-SID-"+self.rwy+".pdf"
