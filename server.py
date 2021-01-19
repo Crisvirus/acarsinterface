@@ -8,7 +8,7 @@ try:
     handler.init_socket()
     handler.read_from_file()
     handler.start()
-    print("Am dat start\n")
+    print("Ready to receive ACARS Messages\n")
 
     httpd = HTTPServer(('',8888),MakeHandlerClassFromArgv(handler))
     httpd.serve_forever()

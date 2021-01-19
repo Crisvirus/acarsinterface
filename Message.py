@@ -8,6 +8,26 @@ class Message:
         self.json_content = json_content
         self.mtype = mtype
         self.id = id
+        self.rwy = 'UNKNOWN'
+        self.takeoff_waypoint = 'UNKNOWN'
+        self.dest = 'UNKNOWN'
+        self.link = "https://www.lvnl.nl/eaip/2021-01-14-AIRAC/html/eAIP/EH-AD-2.EHAM-en-GB.html#eham-ad-2.24"
+        self.is_Schipol = True
+
+    def createLink(self):
+        self.link = "https://www.lvnl.nl/eaip/2021-01-14-AIRAC/graphics/eAIP/EH-AD-2.EHAM-SID-"+self.rwy+".pdf"
+        if self.rwy == '24':
+            if 'VALK' in self.takeoff_waypoint or 'BERG' in self.takeoff_waypoint:
+                self.link = "https://www.lvnl.nl/eaip/2021-01-14-AIRAC/graphics/eAIP/EH-AD-2.EHAM-SID-"+self.rwy+"-2.pdf"
+            else:
+                self.link = "https://www.lvnl.nl/eaip/2021-01-14-AIRAC/graphics/eAIP/EH-AD-2.EHAM-SID-"+self.rwy+"-1.pdf"
+        if self.rwy == '36L':
+            self.link = "https://www.lvnl.nl/eaip/2021-01-14-AIRAC/graphics/eAIP/EH-AD-2.EHAM-SID-"+self.rwy+"-1.pdf"
+        if self.rwy == '06':
+            self.link = "https://www.lvnl.nl/eaip/2021-01-14-AIRAC/graphics/eAIP/EH-AD-2.EHAM-SID-"+self.rwy+"-1.pdf"
+
+        return self.link
+
     
     def getHTMLMessage(self):
         templateLoader = jinja2.FileSystemLoader(searchpath="./templates")
@@ -24,12 +44,10 @@ class Message:
             return template.render(msg = self)
         
         if self.mtype == 'clearance':
-            print(self.mtype)
             template = templateEnv.get_template('clearance_message_template.html')
             return template.render(msg = self)
 
         if self.mtype == 'takeoff':
-            print(self.mtype)
             template = templateEnv.get_template('takeoff_message_template.html')
             return template.render(msg = self)
 

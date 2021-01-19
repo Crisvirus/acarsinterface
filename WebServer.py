@@ -49,7 +49,6 @@ def MakeHandlerClassFromArgv(planes_handler):
                 return
             
             if '/all' in self.path:
-                print(self.path.split('/'))
                 plane_name = self.path.split('/')[1]
                 self._set_response('text/html')
                 self.wfile.write(bytearray(planes_handler.getPlaneAllHTMLByName(plane_name),"UTF-8"))

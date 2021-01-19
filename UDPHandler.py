@@ -24,7 +24,6 @@ class UDPHandler(threading.Thread):
         path = './acarsdata/*'
         files = glob.glob(path)
         for file in files:
-            print(file)
             f = open(file,'r')
             lines = f.readlines()
             f.close()
@@ -46,7 +45,89 @@ class UDPHandler(threading.Thread):
         if re.search(r"CLRD TO", sentance):
             return "takeoff"
         return "text"
+    def handleRouteMessage(self,plane,msg,sentance,text):
+        plane.addRoute(sentance)
+        msg.mtype = 'route'
+        return plane, msg
 
+    def handleClearanceMessage(self,plane,msg,sentance,text):
+        msg.mtype = 'clearance'
+        return plane, msg
+
+    def handleTakeoffMessage(self,plane,msg,sentance,text):
+        msg.mtype = 'takeoff'
+        pattern = r"CLRD TO ([A-Z]{4}) OFF\r?\n? ([0-9A-Z]+) VIA ([0-9A-Z]+)"
+        extracted = re.findall(pattern, text)
+        if len(extracted) == 1:
+            plane.destination_airport = extracted[0][0]
+            msg.dest = extracted[0][0]
+            msg.rwy = extracted[0][1]
+            msg.takeoff_waypoint = extracted[0][2]
+        
+        return plane, msg
+
+    def interpretText(self,plane,msg,text):
+        sentances = text.split('\n')
+        for sentance in sentances:
+            stype = self.checkRegex(sentance)
+            if stype == 'route':
+                plane, msg = self.handleRouteMessage(plane,msg,sentance,text)
+            if stype == 'clearance':
+                plane, msg = self.handleClearanceMessage(plane,msg,sentance,text)
+            if stype == 'takeoff':
+                plane, msg = self.handleTakeoffMessage(plane,msg,sentance,text)
+     
+        return plane, msg
+    def parseLibAcars(self,plane,json_content,msg):
+        if 'arinc622' in json_content:
+            msg.mtype = 'arinc622'
+            msg.json_content = json_content
+            if json_content["arinc622"]["msg_type"] == 'adsc_msg':
+                adsc_msg = json_content["arinc622"]["adsc"]
+                tags = adsc_msg['tags']
+                for tag in tags:
+                    if 'basic_report' in tag:
+                        basic = tag['basic_report']
+                        plane.lat = basic['lat']
+                        plane.lon = basic['lon']
+                        plane.alt = int(float(basic['alt'])*0.3048)
+                        plane.has_location = "Yes"
+
+                    if 'earth_ref_data' in tag:
+                        basic = tag['earth_ref_data']
+                        plane.speed = int(float(basic['gnd_spd_kts'])*1.852)
+                        plane.heading = basic['true_trk_deg']
+                        plane.has_location = "Yes"
+
+                    if 'meteo_data' in tag:
+                        basic = tag['meteo_data']
+                        plane.m_wind_speed = int(float(basic['wind_spd_kts'])*1.852)
+                        plane.m_direction = basic['wind_dir_true_deg']
+                        plane.m_temp = basic['temp_c']
+                        plane.has_meteo = "Yes"
+        
+        return plane, msg
+    
+    def parseMessage(self,plane,json_data):
+        timestamp = json_data['timestamp']
+        text = json_data['text']
+        mtype = 'text'
+        json_content = ''
+        msg = Message(self.current_msg_id,timestamp,text,mtype,json_content)
+        self.current_msg_id += 1
+        if json_data['assstat']=='skipped' or json_data['assstat']=='complete':
+            if 'libacars' in json_data:
+                msg.mtype = 'libacars'
+                json_content = json_data['libacars']
+                plane, msg = self.parseLibAcars(plane,json_content,msg)
+                        
+            else :
+                plane, msg = self.interpretText(plane,msg,text)
+                
+        
+        plane.add_message(msg)
+        return plane
+        
     def process_data(self,json_data):
         if 'tail' in json_data:
             if json_data['tail'] == '':
@@ -73,55 +154,8 @@ class UDPHandler(threading.Thread):
             if 'woff' in json_data:
                 plane.add_woff(json_data['woff'])
             if 'text' in json_data:
-                timestamp = json_data['timestamp']
-                text = json_data['text']
-                mtype = 'text'
-                sentances = text.split('\n')
-                for sentance in sentances:
-                    stype = self.checkRegex(sentance)
-                    if stype == 'route':
-                        plane.addRoute(sentance)
-                        mtype = 'route'
-                    if stype == 'clearance':
-                        mtype = 'clearance'
-                    if stype == 'takeoff':
-                        mtype = 'takeoff'
-                json_content = ''
-                if 'libacars' in json_data:
-                    mtype = 'libacars'
-                    json_content = json_data['libacars']
-                    if 'arinc622' in json_content:
-                        mtype = 'arinc622'
-                        if json_content["arinc622"]["msg_type"] == 'adsc_msg':
-                            adsc_msg = json_content["arinc622"]["adsc"]
-                            tags = adsc_msg['tags']
-                            for tag in tags:
-                                if 'basic_report' in tag:
-                                    basic = tag['basic_report']
-                                    plane.lat = basic['lat']
-                                    plane.lon = basic['lon']
-                                    plane.alt = int(float(basic['alt'])*0.3048)
-                                    plane.has_location = "Yes"
-
-                                if 'earth_ref_data' in tag:
-                                    basic = tag['earth_ref_data']
-                                    plane.speed = int(float(basic['gnd_spd_kts'])*1.852)
-                                    plane.heading = basic['true_trk_deg']
-                                    plane.has_location = "Yes"
-
-                                if 'meteo_data' in tag:
-                                    basic = tag['meteo_data']
-                                    plane.m_wind_speed = int(float(basic['wind_spd_kts'])*1.852)
-                                    plane.m_direction = basic['wind_dir_true_deg']
-                                    plane.m_temp = basic['temp_c']
-                                    plane.has_meteo = "Yes"
-                                
-
-                if json_data['assstat']=='skipped' or json_data['assstat']=='complete':
-                    msg = Message(self.current_msg_id,timestamp,text,mtype,json_content)
-                    plane.add_message(msg)
-                    self.current_msg_id += 1
-
+                plane = self.parseMessage(plane,json_data)
+            
             self.planes[json_data['tail']] = plane
             # print(plane.get_brief())
             

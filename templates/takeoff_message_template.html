@@ -4,6 +4,14 @@
         <h6 class="card-subtitle mb-2 text-muted">{{msg.get_timestamp()}}</h6>
         <p class="card-text">{{msg.get_text()}}</p>
     </div>
+    <div class="card-body bg-secondary">
+        <p class="card-text">Departure to : {{msg.dest}}<br>
+        From runway: {{msg.rwy}}<br>
+        Through waypoint: {{msg.takeoff_waypoint}}</p>
+    </div>
+    {% if msg.is_Schipol == true %}
+    <a href = "{{msg.createLink()}}" target = "_blank" class="btn btn-secondary">Open Runway Chart</a>
+    {% endif %}
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal{{msg.id}}">
         Expand
     </button>

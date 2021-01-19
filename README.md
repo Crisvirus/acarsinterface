@@ -32,6 +32,8 @@ Each plane page has the same brief at the top, and a collection of cards. The fi
     * Text Message: The default card
     * Arinc 622 card: Shows the data in a JSON format
     * Route Card: Contains route infromation, usualy a list of waypoints separated by '.'
+    * Takeoff clearance: A message that says to the pilot that they were cleared for takoff. It specifies the destination, takoff runway, and the navpoint that they have to follow. If the airport that sent the message is "Schiphol", I also added a link to the departure chart for the specified runway
+    * Clearance Message: A message confirming that the pilots recieved the takeoff clearance
 
 ![Acarsinterface plane info][plane_info]
 
