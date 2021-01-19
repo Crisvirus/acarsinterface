@@ -66,8 +66,7 @@ def MakeHandlerClassFromArgv(planes_handler):
                         msg_id = int(tokens[3])
                         self.wfile.write(bytearray(planes_handler.getPlaneRouteById(plane_name,msg_id),"UTF-8"))
                         return
-                    except e:
-                        print(e)
+                    except:
                         print("Not ID "+ tokens[3])
                 
     return WebServer

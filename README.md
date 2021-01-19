@@ -84,6 +84,13 @@ acarsdec -j <ip-of-the-server>:5555 -r 0 131.550 131.525 131.725 131.850 131.825
 ```
 The frequencies used are an example for Europe. For other areas search online for the usually used ACARS frequencies.
 
+3. (Oprional) The waypoints database is saved in the folder ./waypointsDB/CSVData/ . The information is taken from "http://navaid.com/GPX/" in gpx format. The script "./waypointsDB/convert.py" reads all the files from the folder ./waypointsDB/GPXData/ and converts them to csv, saving only the information that is needed. The GPX file is aprox. 50MB, so I didn't upload it to github. If you want to update the waypoint information, go to "http://navaid.com/GPX/" and download the data in ./waypointsDB/GPXData/. Then run:
+```sh
+cd waypointDB
+python3 convert.py
+```
+This operation will take a while, and can use a lot of memory (in my case it used over 1GB of RAM), so only run it on a computer, not on a Raspberry.
+
 <!-- ROADMAP -->
 ## Roadmap
 Features that are on the TODO list:
