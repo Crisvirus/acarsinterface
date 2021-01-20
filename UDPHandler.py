@@ -44,6 +44,10 @@ class UDPHandler(threading.Thread):
             return "route"
         if re.search(r",[0-9]{5}\.[A-Z]{5},[0-9]{5}\.[A-Z]{5},[0-9]{5}\.[A-Z]{5}", sentance):
             return "route"
+        if re.search(r",[0-9]{6},[0-9A-Z]{6}\.[A-Z]{5},[0-9]{6},[0-9A-Z]{6}\.[A-Z]{5}", sentance):
+            return "route"
+        if re.search(r"\.\.[A-Z]{5}\.\.[A-Z]{5}\.", sentance):
+            return "route"
         if re.search(r"CLEARANCE", sentance):
             return "clearance"
         if re.search(r"CLRD TO", sentance):

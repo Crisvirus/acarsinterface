@@ -22,9 +22,15 @@ class Message:
 
     def parseRoute(self,route_text):
         if re.search(r"[A-Z]{5}\.[A-Z]{5}\.[A-Z]{5}", route_text):
-            self.route = re.findall(r"([0-9A-Z]{5})\.",route_text)
+            self.route = re.findall(r"\.([0-9A-Z]{5}|[A-Z]{4}|[A-Z]{3})",route_text)
         if re.search(r",[0-9]{5}\.[A-Z]{5},[0-9]{5}\.[A-Z]{5},[0-9]{5}\.[A-Z]{5}", route_text):
-            self.route = re.findall(r",[0-9]{5}\.([A-Z]{5})",route_text)
+            self.route = re.findall(r",[0-9]{5}\.([0-9A-Z]{5}|[A-Z]{4}|[A-Z]{3})",route_text)
+        if re.search(r",[0-9]{6},[0-9A-Z]{6}\.[A-Z]{5},[0-9]{6},[0-9A-Z]{6}\.[0-9A-Z]{5}",route_text):
+            self.route = re.findall(r",[0-9]{6},[0-9A-Z]{6}\.([0-9A-Z]{5}|[A-Z]{4}|[A-Z]{3})",route_text)
+
+        if re.search(r"\.\.[A-Z]{5}\.\.[A-Z]{5}\.", route_text):
+            self.route = re.findall(r"\.\.([0-9A-Z]{5}|[A-Z]{4}|[A-Z]{3})\.",route_text)
+
     def getRouteSpaces(self):
         return_string = ''
         for w in self.route:
