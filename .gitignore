@@ -1,3 +1,4 @@
 acarsdata
 __pycache__
 waypointsDB/GPXData/*
+passwordDB/*

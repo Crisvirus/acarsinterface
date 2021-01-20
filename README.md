@@ -74,9 +74,11 @@ The folowing are needed for this project to work
 * Python 3: I made the project using Python 3.8.5, but it could work with older versions, but it must be Python 3
 * libacars - follow the instruction from here : https://github.com/szpajder/libacars
 * acarsdec - my fork of acarsdec is needed for now, follow installation instructions from there : https://github.com/Crisvirus/acarsdec
-* Jinja -
+* Jinja, bcrypt -
   ```sh
   pip3 install Jinja2
+  pip3 install bcrypt
+  
   ```
 
 ### Installation
