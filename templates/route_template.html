@@ -7,13 +7,13 @@
             map = new OpenLayers.Map("mapdiv");
             map.addLayer(new OpenLayers.Layer.OSM());
             
-            var zoom=16;
+            var zoom=2;
             var markers = new OpenLayers.Layer.Markers( "Markers" );
             map.addLayer(markers);
             $.get(document.URL+"/json",function(data,status){
                 // console.log(data);
                 if(data.length == 0) {
-                    document.getElementById('planes_list').append = "Not Found";
+                    console.log("Shit!")
                 } else {
                     data.forEach(function(value){
                         // console.log(value)

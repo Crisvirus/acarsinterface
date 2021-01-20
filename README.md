@@ -37,6 +37,22 @@ Each plane page has the same brief at the top, and a collection of cards. The fi
 
 ![Acarsinterface plane info][plane_info]
 
+### Interface
+#### Text Message Card
+    This card is very simple. It shows the message, and a button labled "Expand". The button opens a modal that shows the entire message as it was received.
+
+#### Arinc 622 Message Card
+    It shows the text of the message and an "Expand" button. The button opens a modal that shows the data contained in the message, in a JSON format.
+
+#### Clearance Message
+    It shows the message, and a button labled "Expand". The button opens a modal that shows the entire message as it was received. The difference between this and the Text Message Card is the color.
+
+#### Takeoff Clearance Message Card
+    It shows the message, a section with extracted information (the runway, destination and waypoint),a button labled "Open Runway Chart" and a button labled "Expand". The "Open Runway Chart" opens a pdf with the departure chart for the specified runway (Only works for Schiphol Airport). The "Expand" button opens a modal that shows the entire message as it was received.
+
+#### Route Message Card
+    It shows the text and the "Expand" button. The diference is the "Open Route" button. This opens a new page with a list of waypoint separated by spaces. Use the "Copy to clipboard" button so save the list, and the use the "Go to Skyvector" to open https://skyvector.com/. On the top left, press the "Flight Plan button" and paste the waypoints in the text box.
+
 ### Built With
 
 * [Python](https://www.python.org/)
@@ -84,12 +100,12 @@ acarsdec -j <ip-of-the-server>:5555 -r 0 131.550 131.525 131.725 131.850 131.825
 ```
 The frequencies used are an example for Europe. For other areas search online for the usually used ACARS frequencies.
 
-3. (Oprional) The waypoints database is saved in the folder ./waypointsDB/CSVData/ . The information is taken from "http://navaid.com/GPX/" in gpx format. The script "./waypointsDB/convert.py" reads all the files from the folder ./waypointsDB/GPXData/ and converts them to csv, saving only the information that is needed. The GPX file is aprox. 50MB, so I didn't upload it to github. If you want to update the waypoint information, go to "http://navaid.com/GPX/" and download the data in ./waypointsDB/GPXData/. Then run:
+<!-- 3. (Optional) The waypoints database is saved in the folder ./waypointsDB/CSVData/ . The information is taken from "http://navaid.com/GPX/" in gpx format. The script "./waypointsDB/convert.py" reads all the files from the folder ./waypointsDB/GPXData/ and converts them to csv, saving only the information that is needed. The GPX file is aprox. 50MB, so I didn't upload it to github. If you want to update the waypoint information, go to "http://navaid.com/GPX/" and download the data in ./waypointsDB/GPXData/. Then run:
 ```sh
 cd waypointDB
 python3 convert.py
 ```
-This operation will take a while, and can use a lot of memory (in my case it used over 1GB of RAM), so only run it on a computer, not on a Raspberry.
+This operation will take a while, and can use a lot of memory (in my case it used over 1GB of RAM), so only run it on a computer, not on a Raspberry. -->
 
 <!-- ROADMAP -->
 ## Roadmap

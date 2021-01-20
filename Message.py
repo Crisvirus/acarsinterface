@@ -25,6 +25,13 @@ class Message:
             self.route = re.findall(r"([0-9A-Z]{5})\.",route_text)
         if re.search(r",[0-9]{5}\.[A-Z]{5},[0-9]{5}\.[A-Z]{5},[0-9]{5}\.[A-Z]{5}", route_text):
             self.route = re.findall(r",[0-9]{5}\.([A-Z]{5})",route_text)
+    def getRouteSpaces(self):
+        return_string = ''
+        for w in self.route:
+            return_string+=str(w) + " "
+
+        return return_string
+
 
     def getRouteJSON(self, waypointsDB):
         json_data = []
@@ -43,8 +50,8 @@ class Message:
     def getRouteHTML(self, waypointsDB):
         templateLoader = jinja2.FileSystemLoader(searchpath="./templates")
         templateEnv = jinja2.Environment(loader=templateLoader)
-        template = templateEnv.get_template('route_template.html')
-        return template.render(msg = self)
+        template = templateEnv.get_template('route_template_2.html')
+        return template.render(text = self.getRouteSpaces())
 
     def createLink(self):
         self.link = "https://www.lvnl.nl/eaip/2021-01-14-AIRAC/graphics/eAIP/EH-AD-2.EHAM-SID-"+self.rwy+".pdf"

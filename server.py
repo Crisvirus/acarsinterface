@@ -7,8 +7,8 @@ import _thread
 waypointsDB = WaypointDB()
 handler = UDPHandler(5555,waypointsDB)
 try:
-    waypointsDB.readFromFile()
-    print(len(waypointsDB.waypoints))
+    # waypointsDB.readFromFile()
+    # print(len(waypointsDB.waypoints))
     handler.init_socket()
     handler.read_from_file()
     handler.start()
