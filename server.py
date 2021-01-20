@@ -1,14 +1,18 @@
 from UDPHandler import UDPHandler
 from WebServer import MakeHandlerClassFromArgv
 from http.server import HTTPServer
+from WaypointDB import WaypointDB
+from WaypointDB import Waypoint
 import _thread
-handler = UDPHandler(5555)
-
+waypointsDB = WaypointDB()
+handler = UDPHandler(5555,waypointsDB)
 try:
+    # waypointsDB.readFromFile()
+    # print(len(waypointsDB.waypoints))
     handler.init_socket()
     handler.read_from_file()
     handler.start()
-    print("Am dat start\n")
+    print("Ready to receive ACARS Messages\n")
 
     httpd = HTTPServer(('',8888),MakeHandlerClassFromArgv(handler))
     httpd.serve_forever()

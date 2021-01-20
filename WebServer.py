@@ -48,16 +48,33 @@ def MakeHandlerClassFromArgv(planes_handler):
                 self.wfile.write(bytearray(json.dumps(planes_handler.get_list_of_planes_last_1()),"UTF-8"))
                 return
             
-            if '/all' in self.path:
-                print(self.path.split('/'))
-                plane_name = self.path.split('/')[1]
-                self._set_response('text/html')
-                self.wfile.write(bytearray(planes_handler.getPlaneAllHTMLByName(plane_name),"UTF-8"))
-                return
-            else:
-                plane_name = self.path[1:]
-                self._set_response('text/html')
-                self.wfile.write(bytearray(planes_handler.getPlaneLast8hHTMLByName(plane_name),"UTF-8"))
-                return
+            if '/plane' in self.path:
+                tokens = self.path.split('/')
+                print(tokens)
+                plane_name = tokens[2]
+                if len(tokens) >= 4:
+                    if tokens[3] == 'all':
+                        self._set_response('text/html')
+                        self.wfile.write(bytearray(planes_handler.getPlaneAllHTMLByName(plane_name),"UTF-8"))
+                        return
+                    
+                    if tokens[3] == '8h':
+                        self._set_response('text/html')
+                        self.wfile.write(bytearray(planes_handler.getPlaneLast8hHTMLByName(plane_name),"UTF-8"))
+                        return
+                    
+                    try:
+                        if len(tokens) == 4:
+                            msg_id = int(tokens[3])
+                            self._set_response('text/html')
+                            self.wfile.write(bytearray(planes_handler.getPlaneRouteById(plane_name,msg_id),"UTF-8"))
+                            return
+                        if len(tokens) == 5:
+                            self._set_response('application/json')
+                            msg_id = int(tokens[3])
+                            self.wfile.write(bytearray(planes_handler.getPlaneRouteJSONById(plane_name,msg_id),"UTF-8"))
+                            return
+                    except:
+                        print("Not ID "+ tokens[3])
                 
     return WebServer
