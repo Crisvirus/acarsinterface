@@ -121,8 +121,6 @@ This operation will take a while, and can use a lot of memory (in my case it use
 ## Roadmap
 Features that are on the TODO list:
 
-    * Login with username and password
-    * Https support
     * More types of messages with more information extracted from the text
 
 
