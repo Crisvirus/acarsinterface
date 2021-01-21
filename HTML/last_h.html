@@ -11,12 +11,13 @@
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
 form {border: 3px solid #f1f1f1;}
+
 body {
   background-color: #292b2c;
   color: white;
 }
 
-/* button {
+button {
   background-color: #4CAF50;
   color: white;
   padding: 14px 20px;
@@ -24,7 +25,7 @@ body {
   border: none;
   cursor: pointer;
   width: 100%;
-} */
+}
 
 button:hover {
   opacity: 0.8;
@@ -36,7 +37,7 @@ button:hover {
   background-color: #f44336;
 }
 
-/* a.createbtn {
+a.createbtn {
   width: auto;
   padding: 10px 18px;
   background-color: #4CAF50;
@@ -45,7 +46,7 @@ button:hover {
     appearance: button;
 
     text-decoration: none;
-} */
+}
 
 .imgcontainer {
   text-align: center;
@@ -88,14 +89,14 @@ span.psw {
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" href="/last_h.html">Last hour</a>
+        <li class="nav-item active">
+            <a class="nav-link" href="#">Last hour<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/last_24.html">Last 24 hours</a>
         </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="#">All planes<span class="sr-only">(current)</span></a>
+        <li class="nav-item">
+            <a class="nav-link" href="/all.html">All planes</a>
         </li>
         </ul>
     </div>
@@ -105,6 +106,7 @@ span.psw {
         <tr>
         <th scope="col">Registration Number</th>
         <th scope="col">Last Seen</th>
+        <th scope="col">Number of messages in the last hour</th>
         <th scope="col">Number of messages</th>
         <th scope="col">Has extra data</th>
         <th scope="col">Has location</th>
@@ -114,12 +116,12 @@ span.psw {
     </thead>
     <tbody id = "planes_list">
     </tbody>
-</table>
+    </table>
 
 
 </body>
 <script>
-    $.get("/planes_list_all",function(data,status){
+    $.get("/planes_list_1",function(data,status){
         // console.log(data);
         if(data.length == 0) {
             document.getElementById('planes_list').append = "Not Found";
@@ -133,12 +135,14 @@ span.psw {
                 td4 = document.createElement('td');
                 td6 = document.createElement('td');
                 td7 = document.createElement('td');
+                td8 = document.createElement('td');
                 td1.innerHTML = value.key
                 td2.innerHTML = value.timestamp
                 td3.innerHTML = value.msgno
                 td5.innerHTML = value.extra
                 td6.innerHTML = value.location
                 td7.innerHTML = value.meteo
+                td8.innerHTML = value.msgno_1h
                 button = document.createElement('a')
                 if(value.extra == 'Yes') {
                     tr.class = "bg-success"
@@ -156,6 +160,7 @@ span.psw {
                 td4.appendChild(button);
                 tr.appendChild(td1)
                 tr.appendChild(td2)
+                tr.appendChild(td8)
                 tr.appendChild(td3)
                 tr.appendChild(td5)
                 tr.appendChild(td6)

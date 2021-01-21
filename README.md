@@ -74,17 +74,27 @@ The folowing are needed for this project to work
 * Python 3: I made the project using Python 3.8.5, but it could work with older versions, but it must be Python 3
 * libacars - follow the instruction from here : https://github.com/szpajder/libacars
 * acarsdec - my fork of acarsdec is needed for now, follow installation instructions from there : https://github.com/Crisvirus/acarsdec
-* Jinja -
+* Jinja, bcrypt, tinyDB -
   ```sh
   pip3 install Jinja2
+  pip3 install bcrypt
+  pip3 install tinyDB
   ```
 
 ### Installation
 
-1. It's written in Python, so no installation required, just clone the repo
+1. It's written in Python, so no installation required, just clone the repo and create the password database
 ```sh
 git clone https://github.com/Crisvirus/acarsinterface
+cd acarsinterface
+mkdir passwordDB
 ```
+2. (Optional) If you want to use HTTPS, obtain a certificate (ex: from [Let's Encrypt](https://letsencrypt.org/))
+3. (Optional) Create the certs directory
+```sh
+mkdir certs
+```
+4. (Optional) Copy the certificates to the "certs" directory.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -111,8 +121,6 @@ This operation will take a while, and can use a lot of memory (in my case it use
 ## Roadmap
 Features that are on the TODO list:
 
-    * Login with username and password
-    * Https support
     * More types of messages with more information extracted from the text
 
 
