@@ -3,11 +3,13 @@ from WebServer import MakeHandlerClassFromArgv
 from http.server import HTTPServer
 from WaypointDB import WaypointDB
 from WaypointDB import Waypoint
+from IATAICAOConverter import IATAICAOConverter
 import _thread
 import os
 import ssl
 waypointsDB = WaypointDB()
-handler = UDPHandler(5555,waypointsDB)
+iataicao = IATAICAOConverter("AirlinesDB/airlines.dat")
+handler = UDPHandler(5555,waypointsDB,iataicao)
 try:
     # waypointsDB.readFromFile()
     # print(len(waypointsDB.waypoints))

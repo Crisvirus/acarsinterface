@@ -3,6 +3,8 @@ from datetime import datetime
 from Message import Message
 import time
 from WaypointDB import WaypointDB
+from IATAICAOConverter import IATAICAOConverter
+
 class Plane:
     def __init__(self, registration_no, timestamp):
         self.registration_no = registration_no
@@ -29,6 +31,8 @@ class Plane:
         self.m_temp = 'Unknown'
         self.has_location = 'No'
         self.has_meteo = 'No'
+        self.flight_no_icao = 'UNKNOWN'
+        self.airline = 'UNKNOWN'
 
     def addRoute(self,sentance):
         self.route = sentance
@@ -37,8 +41,9 @@ class Plane:
         if last_seen > self.last_seen:
             self.last_seen = last_seen
 
-    def add_flight_no(self, flight_no):
+    def add_flight_no(self, flight_no, iataicao):
         self.flight_no = flight_no
+        self.flight_no_icao, self.airline = iataicao.convert(flight_no)
 
     def add_departure_airport(self, departure_airport):
         self.departure_airport = departure_airport
@@ -85,9 +90,9 @@ class Plane:
         output['key'] = self.registration_no
         output['timestamp'] = datetime.fromtimestamp(self.last_seen).strftime("%d-%m-%y %H:%M:%S")
         output['msgno'] = len(self.messages)
-        output['extra'] = self.has_extra
-        output['location'] = self.has_location
-        output['meteo'] = self.has_meteo
+        output['flight_no'] = self.flight_no
+        output['flight_no_icao'] = self.flight_no_icao
+        output['airline'] = self.airline
         i = 0
         for id in self.messages:
             if self.messages[id].timestamp > time.time() - 1*60*60:
@@ -112,7 +117,9 @@ class Plane:
                                 won = self.won, 
                                 woff = self.woff, 
                                 registration_no=self.registration_no, 
-                                flight_no = self.flight_no, 
+                                flight_no = self.flight_no,
+                                flight_no_icao = self.flight_no_icao,
+                                airline = self.airline,
                                 departure_airport = self.departure_airport, 
                                 destination_airport = self.destination_airport, 
                                 first_seen = str(first_dt), 

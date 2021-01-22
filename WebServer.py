@@ -73,14 +73,12 @@ def MakeHandlerClassFromArgv(planes_handler):
                 for key, morsel in c.items():
                     if key == 'token':
                         token = morsel.value
-                        print(token)
             else:
                 print("No cookie for you\n")
             
             if token_is_valid(token):
                 if self.path=="/last_h.html":
                     f = open(curdir + sep + "HTML/last_h.html")
-                    print(curdir + sep + "HTML/last_h.html")
                     self._set_response('text/html')
                     self.wfile.write(bytearray(f.read(),"UTF-8"))
                     f.close()
@@ -117,7 +115,6 @@ def MakeHandlerClassFromArgv(planes_handler):
                 
                 if '/plane' in self.path:
                     tokens = self.path.split('/')
-                    print(tokens)
                     plane_name = tokens[2]
                     if len(tokens) >= 4:
                         if tokens[3] == 'all':
@@ -151,6 +148,7 @@ def MakeHandlerClassFromArgv(planes_handler):
                 self.end_headers()
 
         def do_GET(self):
+            print(self.path)
             if self.path=="/":
                 f = open(curdir + sep + "HTML/index.html")
                 self._set_response('text/html')

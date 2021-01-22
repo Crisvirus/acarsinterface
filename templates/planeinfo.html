@@ -35,7 +35,8 @@ body {
     <thead>
     <tr>
         <th scope="col">Registartion Number</th>
-        <th scope="col">Flight Number</th>
+        <th scope="col">Flight Number(IATA/ICAO)</th>
+        <th scope="col">Airline</th>
         <th scope="col">Departure Airport</th>
         <th scope="col">Destination Airport</th>
         <th scope="col">First Seen</th>
@@ -50,7 +51,8 @@ body {
     <tbody>
     <tr>
         <td>{{registration_no}}</td>
-        <td>{{flight_no}}</td>
+        <td>{{flight_no}}/{{flight_no_icao}}</td>
+        <td>{{airline}}</td>
         <td>{{departure_airport}}</td>
         <td>{{destination_airport}}</td>
         <td>{{first_seen}}</td>

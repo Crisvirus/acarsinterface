@@ -9,10 +9,12 @@ from datetime import datetime
 from Message import Message
 from WaypointDB import Waypoint
 from WaypointDB import WaypointDB
+from IATAICAOConverter import IATAICAOConverter
 
 class UDPHandler(threading.Thread):
-    def __init__(self, port, waypointsDB):
+    def __init__(self, port, waypointsDB,iataicao):
         threading.Thread.__init__(self)
+        self.iataicao = iataicao
         self._stop_event = threading.Event()
         self.port = port
         self.planes = {}
@@ -150,7 +152,7 @@ class UDPHandler(threading.Thread):
             
             plane.update_last_seen(json_data['timestamp'])
             if 'flight' in json_data:
-                plane.add_flight_no(json_data['flight'])
+                plane.add_flight_no(json_data['flight'],self.iataicao)
             if 'depa' in json_data:
                 plane.add_departure_airport(json_data['depa'])
             if 'dsta' in json_data:
