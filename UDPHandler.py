@@ -136,9 +136,7 @@ class UDPHandler(threading.Thread):
                         
             else :
                 plane, msg = self.interpretText(plane,msg,text)
-                
-        
-        plane.add_message(msg)
+            plane.add_message(msg)
         if plane.flight_no_icao != 'UNKNOWN':
             self.lastMessageByFlightNo[plane.flight_no_icao] = msg
         return plane

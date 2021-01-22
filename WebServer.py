@@ -11,6 +11,7 @@ import random
 import math
 from uuid import uuid4
 from threading import Timer
+import requests
 
 def MakeHandlerClassFromArgv(planes_handler):
     user_passwd = {}
@@ -77,13 +78,6 @@ def MakeHandlerClassFromArgv(planes_handler):
                 print("No cookie for you\n")
             
             if token_is_valid(token):
-                if self.path=="/map.html":
-                    f = open(curdir + sep + "HTML/map.html")
-                    self._set_response('text/html')
-                    self.wfile.write(bytearray(f.read(),"UTF-8"))
-                    f.close()
-                    return
-
                 if self.path=="/last_h.html":
                     f = open(curdir + sep + "HTML/last_h.html")
                     self._set_response('text/html')
@@ -123,7 +117,6 @@ def MakeHandlerClassFromArgv(planes_handler):
                 if '/flight' in self.path:
                     tokens = self.path.split('/')
                     flight_no = tokens[2]
-                    print(flight_no)
                     self._set_response('application/json')
                     self.wfile.write(bytearray(planes_handler.getLastMessageByFlightNumber(flight_no),"UTF-8"))
                     return
