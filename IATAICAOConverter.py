@@ -9,7 +9,7 @@ class IATAICAOConverter:
             tokens = line.split(',')
             if tokens[3] != '':
                 self.IATAtoICAO[tokens[3].replace('"', '')] = (tokens[4].replace('"', ''),tokens[1].replace('"', ''))
-                print(tokens[1].replace('"', '') + " " +tokens[3].replace('"', '') + " "+tokens[4].replace('"', ''))
+                # print(tokens[1].replace('"', '') + " " +tokens[3].replace('"', '') + " "+tokens[4].replace('"', ''))
 
     def convert(self,flight_no):
         IATACode = flight_no[:-4]
@@ -23,6 +23,6 @@ class IATAICAOConverter:
         else:
             ICAOFlight = "UNKNOWN"
             airline = "UNKNOWN"
-        print(ICAOFlight + " " + airline)
+        # print(ICAOFlight + " " + airline)
         return ICAOFlight,airline
             
