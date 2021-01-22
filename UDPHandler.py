@@ -21,6 +21,7 @@ class UDPHandler(threading.Thread):
         self.current_msg_id = 0
         self.logfile = open("./acarsdata/"+str(datetime.fromtimestamp(time.time()).strftime("%d-%m-%y-%H:%M:%S")) + ".out", "w")
         self.waypointsDB = waypointsDB
+        self.lastMessageByFlightNo = {}
 
     def init_socket(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -138,6 +139,8 @@ class UDPHandler(threading.Thread):
                 
         
         plane.add_message(msg)
+        if plane.flight_no_icao != 'UNKNOWN':
+            self.lastMessageByFlightNo[plane.flight_no_icao] = msg
         return plane
         
     def process_data(self,json_data):
@@ -169,11 +172,16 @@ class UDPHandler(threading.Thread):
                 plane = self.parseMessage(plane,json_data)
             
             self.planes[json_data['tail']] = plane
-            # print(plane.get_brief())
+            
             
         else:
             return   
-        
+    def getLastMessageByFlightNumber(self,flight_no):
+        if flight_no in self.lastMessageByFlightNo:
+            return self.lastMessageByFlightNo[flight_no].getShortJSON()
+        else:
+            return '{"UNKNOWN":1}'
+
     def run(self):
         while not self._stop_event.is_set():
             # print(self._stop_event.is_set())

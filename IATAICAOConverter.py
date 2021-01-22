@@ -14,11 +14,15 @@ class IATAICAOConverter:
     def convert(self,flight_no):
         IATACode = flight_no[:-4]
         number = flight_no[-4:]
+        try:
+            number = int(number)
+        except:
+            print("Weird Number\n")
         if IATACode in self.IATAtoICAO:
             ICAOCode = self.IATAtoICAO[IATACode][0]
             if ICAOCode == '\\N':
                 ICAOCode = IATACode
-            ICAOFlight = ICAOCode + number
+            ICAOFlight = ICAOCode + str(number)
             airline = self.IATAtoICAO[IATACode][1]
         else:
             ICAOFlight = "UNKNOWN"

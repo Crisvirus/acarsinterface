@@ -20,6 +20,12 @@ class Message:
         self.is_Schipol = True
         self.route = ['UNKNOWN']
 
+    def getShortJSON(self):
+        js = {}
+        js['timestamp'] = datetime.fromtimestamp(self.timestamp).strftime("%d-%m-%y %H:%M:%S")
+        js['msg'] = self.text
+        return json.dumps(js)
+
     def parseRoute(self,route_text):
         if re.search(r"[A-Z]{5}\.[A-Z]{5}\.[A-Z]{5}", route_text):
             self.route = re.findall(r"\.([0-9A-Z]{5}|[A-Z]{4}|[A-Z]{3})",route_text)

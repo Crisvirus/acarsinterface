@@ -77,6 +77,13 @@ def MakeHandlerClassFromArgv(planes_handler):
                 print("No cookie for you\n")
             
             if token_is_valid(token):
+                if self.path=="/map.html":
+                    f = open(curdir + sep + "HTML/map.html")
+                    self._set_response('text/html')
+                    self.wfile.write(bytearray(f.read(),"UTF-8"))
+                    f.close()
+                    return
+
                 if self.path=="/last_h.html":
                     f = open(curdir + sep + "HTML/last_h.html")
                     self._set_response('text/html')
@@ -112,7 +119,15 @@ def MakeHandlerClassFromArgv(planes_handler):
                     self._set_response('application/json')
                     self.wfile.write(bytearray(json.dumps(planes_handler.get_list_of_planes_last_1()),"UTF-8"))
                     return
-                
+
+                if '/flight' in self.path:
+                    tokens = self.path.split('/')
+                    flight_no = tokens[2]
+                    print(flight_no)
+                    self._set_response('application/json')
+                    self.wfile.write(bytearray(planes_handler.getLastMessageByFlightNumber(flight_no),"UTF-8"))
+                    return
+
                 if '/plane' in self.path:
                     tokens = self.path.split('/')
                     plane_name = tokens[2]

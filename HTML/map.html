@@ -1,0 +1,57 @@
+<html>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/last_h.html">Last hour</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/last_24.html">Last 24 hours</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/all.html">All planes</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Map<span class="sr-only">(current)</span></a>
+            </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="mapdiv"></div>
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+    <script>
+      map = new OpenLayers.Map("mapdiv");
+      map.addLayer(new OpenLayers.Layer.OSM());
+  
+      var lonLat = new OpenLayers.LonLat( -0.1279688 ,51.5077286 )
+            .transform(
+              new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+              map.getProjectionObject() // to Spherical Mercator Projection
+            );
+            
+      var zoom=16;
+  
+      var markers = new OpenLayers.Layer.Markers( "Markers" );
+      map.addLayer(markers);
+      $.get(url = "http://192.168.0.100:8088/dump1090/data.json",crossDomain = true,function(data,status){
+        // console.log(data);
+        if(data.length == 0) {
+            document.getElementById('planes_list').append = "Not Found";
+        } else {
+            data.forEach(function(value){
+                console.log(value)
+            })
+        }
+        })
+      markers.addMarker(new OpenLayers.Marker(lonLat));
+      
+      map.setCenter (lonLat, zoom);
+    </script>
+  </body></html>
